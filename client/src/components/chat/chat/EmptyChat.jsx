@@ -7,7 +7,7 @@ const styleEmptyChat = {
     padding: "30px 0",
     textAlign: "center",
     height: "100vh",
-}
+} 
 
 const styleEmptyContainer = {
     padding: "0 200px",
