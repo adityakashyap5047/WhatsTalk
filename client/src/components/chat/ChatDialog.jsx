@@ -1,6 +1,7 @@
 import { Dialog } from "@mui/material";
 import Menu from "./menu/Menu.jsx";
 import EmptyChat from "./chat/EmptyChat.jsx";
+import ChatBox from "./chat/ChatBox.jsx";
 
 const styleDialog = {
     height: "95%",
@@ -36,7 +37,8 @@ export default function ChatDialog() {
                     <Menu/>
                 </div>
                 <div style={styleRightComponent}>
-                    <EmptyChat/>
+                    {/*<EmptyChat/>*/}
+                    <ChatBox/>
                 </div>
             </div>
         </Dialog>
