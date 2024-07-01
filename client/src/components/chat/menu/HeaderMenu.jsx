@@ -3,7 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 
-export default function HeaderMenu() {
+export default function HeaderMenu({setOpenDrawer}) {
     const [open, setOpen] = useState(null);
 
     const styleMenuOption = {
@@ -38,6 +38,7 @@ export default function HeaderMenu() {
                     horizontal: "right"
                 }}
             >
+                <MenuItem onClick={() => {handleClose(); setOpenDrawer(true);}} style={styleMenuOption}>Profile</MenuItem>
                 <MenuItem onClick={handleClose} style={styleMenuOption}>New group</MenuItem>
                 <MenuItem onClick={handleClose} style={styleMenuOption}>Archived</MenuItem>
                 <MenuItem onClick={handleClose} style={styleMenuOption}>Starred message</MenuItem>
