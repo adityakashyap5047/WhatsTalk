@@ -1,10 +1,11 @@
 import {Dialog, List, ListItem, styled} from '@mui/material';
-import { qrCodeImage } from '../../constants/data';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
-
 import { useContext } from 'react';
+
+import { qrCodeImage } from '../../constants/data';
 import { AccountContext } from '../../context/AccountProvider';
+import { addUser } from '../../service/api';
 
 const styleDialog = {
     height: "96%",
@@ -60,9 +61,10 @@ export default function LoginDialog() {
 
     const {setAccount} = useContext(AccountContext);
 
-    const onLoginSucess = (res) => {
+    const onLoginSucess = async (res) => {
         const decoded = jwtDecode(res.credential);
         setAccount(decoded);
+        await addUser(decoded);
     }
 
     const onLoginFailed = (res) => {
