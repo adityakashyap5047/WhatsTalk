@@ -1,3 +1,7 @@
+import { useContext } from "react";
+
+import { AccountContext } from "../../context/AccountProvider.jsx";
+
 import { Dialog } from "@mui/material";
 import Menu from "./menu/Menu.jsx";
 import EmptyChat from "./chat/EmptyChat.jsx";
@@ -30,6 +34,9 @@ const styleRightComponent = {
 }
 
 export default function ChatDialog() {
+
+    const {person} = useContext(AccountContext);
+
     return (
         <Dialog open={true} PaperProps={{ sx: styleDialog}} hideBackdrop={true} maxWidth={"md"}>
             <div style={styleChat}>
@@ -37,8 +44,7 @@ export default function ChatDialog() {
                     <Menu/>
                 </div>
                 <div style={styleRightComponent}>
-                    {/*<EmptyChat/>*/}
-                    <ChatBox/>
+                    {Object.keys(person).length ? <ChatBox/> : <EmptyChat/>}
                 </div>
             </div>
         </Dialog>

@@ -32,7 +32,7 @@ const InputField = styled(InputBase)`
     font-size: 14px;
 `
 
-export default function Search() {
+export default function Search({setText}) {
     return(
         <>
             <div style={styleSearch}>
@@ -40,7 +40,7 @@ export default function Search() {
                     <div style={styleIcon}>
                         <SearchIcon fontSize='small'/>
                     </div>
-                    <InputField placeholder='Search or start new chat'/>
+                    <InputField placeholder='Search or start new chat' onChange={(event) => setText(event.target.value)}/>
                 </div>
             </div>
         </>
