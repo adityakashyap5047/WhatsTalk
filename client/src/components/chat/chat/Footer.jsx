@@ -1,5 +1,9 @@
+import { useEffect } from "react";
+
 import { EmojiEmotionsOutlined, AttachFile, Mic } from "@mui/icons-material";
 import { Box, InputBase, styled } from "@mui/material";
+
+import { uploadFile } from "../../../service/api";
 
 const styleFooterContainer = {
     height: "50px",
@@ -33,12 +37,33 @@ const InputField = styled(InputBase)`
     font-size: 14px;
 `
 
-const Footer = ({sendText, setValue, value}) => {
+const Footer = ({sendText, setValue, value, file, setFile}) => {
+
+    useEffect(() => {
+        const getImage = async () => {
+            if (file) {
+                const data = new FormData();
+                data.append("name", file.name);
+                data.append("file", file);
+
+                await uploadFile(data);
+            }
+        }
+        getImage();
+    }, [file]);
+
+    const onFileChange = (e) => {
+        setFile(e.target.files[0]);
+        setValue(e.target.files[0].name);
+    }
 
     return (
         <div style={styleFooterContainer}>
             <EmojiEmotionsOutlined style={styleFooterComponent}/>
-            <StyledAttachFile style={styleFooterComponent}/>
+            <label htmlFor="inputFile">
+                <StyledAttachFile style={styleFooterComponent}/>
+            </label>
+            <input type="file" id="inputFile" onChange={(e) => onFileChange(e)} style={{display: "none"}}/>
             <Search style={styleFooterComponent}>
                 <InputField placeholder="Type a message" onChange={(e) => setValue(e.target.value)} onKeyPress={(e) => sendText(e)} value={value}/>
             </Search>
