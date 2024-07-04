@@ -33,15 +33,14 @@ const InputField = styled(InputBase)`
     font-size: 14px;
 `
 
-const Footer = () => {
-
+const Footer = ({sendText, setValue, value}) => {
 
     return (
         <div style={styleFooterContainer}>
             <EmojiEmotionsOutlined style={styleFooterComponent}/>
             <StyledAttachFile style={styleFooterComponent}/>
             <Search style={styleFooterComponent}>
-                <InputField placeholder="Type a message"/>
+                <InputField placeholder="Type a message" onChange={(e) => setValue(e.target.value)} onKeyPress={(e) => sendText(e)} value={value}/>
             </Search>
             <Mic style={styleFooterComponent}/>
         </div>
