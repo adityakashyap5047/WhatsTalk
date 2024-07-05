@@ -10,7 +10,6 @@ const io = new Server(9000, {
 })
 
 let users = [];
-let userEmail = [];
 
 const addUser = (userData, socketId) => {
     !(users.some(user => user.sub == userData.sub)) && users.push({...userData, socketId})
