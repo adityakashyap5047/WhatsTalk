@@ -1,8 +1,12 @@
+import { useContext } from "react";
+
 import { styled } from "@mui/system";
 
 import { Search, MoreVert } from "@mui/icons-material";
 
 import { defaultProfilePicture } from "../../../constants/data";
+
+import { AccountContext } from "../../../context/AccountProvider";
 
 const styleHeader = {
     height: "45px",
@@ -41,13 +45,15 @@ const styleSearchMoreVert = {
 }
 
 const ChatHeader = ({person}) => {
+
+    const {activeUsers} = useContext(AccountContext);
     
     return (
         <div style={styleHeader}>
             <Image src={person.picture} alt="dp" />
             <div>
                 <p style={styleName}>{person.name}</p>
-                <p style={styleStatus}>offline</p>
+                <p style={styleStatus}>{activeUsers?.find(user => user.sub === person.sub) ? "online" : "offline"}</p>
             </div>
             <div style={styleRight}>
                 <Search style={styleSearchMoreVert} />
