@@ -17,7 +17,7 @@ Connection();
 import Route from './routes/routes.js';
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on the port ${port}`);
 });
 
 app.use('/', Route);

@@ -4,8 +4,6 @@ import { styled } from "@mui/system";
 
 import { Search, MoreVert } from "@mui/icons-material";
 
-import { defaultProfilePicture } from "../../../constants/data";
-
 import { AccountContext } from "../../../context/AccountProvider";
 
 const styleHeader = {

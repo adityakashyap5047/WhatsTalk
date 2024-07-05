@@ -1,8 +1,11 @@
 import multer from 'multer';
 import { GridFsStorage } from 'multer-gridfs-storage';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const storage = new GridFsStorage({
-    url: 'mongodb://127.0.0.1:27017/whatstalk',
+    url: process.env.MONGO_URL,
     file: (req, file) => {
 
         return {
@@ -12,4 +15,4 @@ const storage = new GridFsStorage({
     }
 });
 
-export default multer({storage});  
+export default multer({storage});
