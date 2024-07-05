@@ -5,7 +5,7 @@ dotenv.config();
 
 const io = new Server(9000, {
     cors: {
-        origin: process.env.FRONTEND_URL,
+        origin: '*',
     }
 })
 
