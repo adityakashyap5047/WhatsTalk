@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 
 import {AccountContext} from "../../../context/AccountProvider";
 
@@ -28,6 +28,9 @@ const Messages = ({person, conversation}) => {
     const [messages, setMessages] = useState([]);
     const [newMessageFlag, setNewMessageFlag] = useState(false);
     const [file, setFile] = useState();
+    const [image, setImage] = useState("");
+
+    const scrollRef = useRef();
 
     useEffect(() => {
         const getMessageDetails = async () => {
@@ -37,19 +40,35 @@ const Messages = ({person, conversation}) => {
         conversation._id && getMessageDetails();
     }, [person._id, conversation._id, newMessageFlag]);
 
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({transition: "smooth"});
+    }, [messages])
+
     const sendText = async (e) => {
         const code =  e.keyCode || e.which;
         if(code === 13){
-            let message = {
-                senderId: account.sub,
-                receiverId: person.sub,
-                conversationId: conversation._id,
-                type: 'text',
-                text: value
-            }
-            
+            let message
+            if(!file){
+                message = {
+                    senderId: account.sub,
+                    receiverId: person.sub,
+                    conversationId: conversation._id,
+                    type: 'text',
+                    text: value
+                }
+            }  else {
+                message = {
+                    senderId: account.sub,
+                    receiverId: person.sub,
+                    conversationId: conversation._id,
+                    type: 'file',
+                    text: image
+                }
+            }          
             await newMessage(message);
             setValue("");
+            setFile("");
+            setImage("");
             setNewMessageFlag(prev => !prev);
         }
     }
@@ -59,13 +78,13 @@ const Messages = ({person, conversation}) => {
                 <div style={styleChatBackground}>
                     {
                         messages && messages.map(message => (
-                            <div style={styleConversion}>
+                            <div style={styleConversion} ref={scrollRef}>
                                 <Message message={message}/>
                             </div>
                         ))
                     }
                 </div>
-                <Footer sendText={sendText} setValue={setValue} value={value} file={file} setFile={setFile}/>
+                <Footer sendText={sendText} setValue={setValue} value={value} file={file} setFile={setFile} setImage={setImage}/>
             </div>
     )
 }

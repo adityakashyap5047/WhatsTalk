@@ -59,4 +59,4 @@ export const uploadFile = async (data) => {
     } catch (err) {
         console.log("Error while calling uploadFile api", err.message); 
     }
-} 
+}

@@ -1,7 +1,10 @@
-import { useContext } from "react"
+import { useContext } from "react";
 
-import { formatDate } from "../../../utils/commonUtils"
-import { AccountContext } from "../../../context/AccountProvider"
+import GetAppIcon from '@mui/icons-material/GetApp';
+
+import { formatDate, downloadMedia } from "../../../utils/commonUtils";
+import { AccountContext } from "../../../context/AccountProvider";
+import {iconPDF} from "../../../constants/data"
 
 const styleSentMessage = {
     background: "#dcf8c6",
@@ -37,25 +40,65 @@ const styleTime = {
     wordBreak: "keep-all"
 }
 
+const styleImageTime = {
+    fontSize: "10px",
+    color: "#919191",
+    marginTop: "auto",
+    wordBreak: "keep-all",
+    position: "absolute",
+    bottom: "0",
+    right: "0"
+}
+
 const Message = ({message}) => {
 
     const {account} = useContext(AccountContext);
+
+    const extensions = /\.(jpg|jpeg|png|pdf|webp|gif|bmp|tiff|svg|doc|docx|xls|xlsx|ppt|pptx|txt|rtf|html|htm|css|js|json|xml|csv|mp3|wav|ogg|mp4|avi|mkv|mov|wmv|flv|zip|rar|tar|gz|7z)$/i;
 
     return (
         <>
             {
                 account.sub === message.senderId ? 
                     <div style={styleSentMessage}>
-                        <div style={styleText}>{message.text}</div>
-                        <div style={styleTime}>{formatDate(message.createdAt)}</div>
-                    </div> 
+                        {
+                           extensions.test(message.text) ? <ImageMessage message={message}/> : <TextMessage message={message}/>
+                        }
+                    </div>
                 : 
                     <div style={styleReceivedMessage}>
-                        <div style={styleText}>{message.text}</div>
-                        <div style={styleTime}>{formatDate(message.createdAt)}</div>
+                        {
+                           extensions.test(message.text)  ? <ImageMessage message={message}/> : <TextMessage message={message}/>
+                        }
                     </div>
             }
             
+        </>
+    )
+}
+
+const ImageMessage = ({message}) => {
+    return (
+        <div style={{position: "relative"}}>
+            {
+                message?.text?.includes(".pdf") ?
+                    <div style={{display: "flex", alignItems: "center"}}>
+                        <img src={iconPDF} alt="pdf" style={{width: "80px"}} />
+                        <div style={{fontSize: 14}}>{message.text.split('/').pop()}</div>
+                    </div>
+                :
+                    <img style={{width: 300, height: "100%", objectFit: "cover"}} src={message.text} alt={message.text}/>
+            }
+            <div style={styleImageTime}><GetAppIcon onClick={(e) => downloadMedia(e, message.text)} style={{marginLeft: 10, border: "1px solid grey", borderRadius: "50%"}} fontSize="small"/>{formatDate(message.createdAt)}</div>
+        </div>
+    )
+}
+
+const TextMessage = ({message}) => {
+    return (
+        <>
+            <div style={styleText}>{message.text}</div>
+            <div style={styleTime}>{formatDate(message.createdAt)}</div>
         </>
     )
 }
