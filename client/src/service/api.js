@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const url = 'http://localhost:3000'
-const url = 'https://whatstalk-server.onrender.com'
+const url = 'http://localhost:3000'
+// const url = 'https://whatstalk-server.onrender.com'
 
 export const addUser = async (data) => {
     try{

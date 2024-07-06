@@ -13,7 +13,7 @@ const AccountProvider = ({children}) => {
 
     useEffect(() => {
         // socket.current = io("ws://localhost:9000");   //This is for local host
-        socket.current = io("wss://whatstalk-socket.onrender.com"); 
+        socket.current = io("wss://whatstalk-socket.onrender.com:443"); 
     }, []);
 
     return(
